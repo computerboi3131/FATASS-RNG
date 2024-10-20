@@ -4,19 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RNG Game</title>
-    <link rel="stylesheet" href="styles.css"> <!-- Link to your CSS file -->
+    <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <h1>RNG Game</h1>
-    
-    <button id="rngButton">Generate Item</button>
+    <h1>RNG Fatass Game</h1>
+
+    <div id="luckMultiplier">Current Luck Multiplier: 1</div>
+
+    <button id="rngButton">Roll Item</button>
     <button id="autoRollButton">Start Auto Roll</button>
-    
+
     <div id="result"></div>
-    
+
     <h2>Your Inventory</h2>
     <ul id="inventory"></ul>
 
-    <script src="rng-game.js"></script> <!-- Link to your JavaScript file -->
+    <h2>Crafting Options</h2>
+    <div id="craftableItems" style="overflow-y: scroll; height: 200px;"></div>
+
+    <script src="rng-game.js"></script>
 </body>
 </html>
