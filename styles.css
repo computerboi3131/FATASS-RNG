@@ -1,71 +1,66 @@
-/* Basic Reset */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-/* Body Styling */
 body {
-    font-family: 'Arial', sans-serif; /* Clean font */
-    background-color: #e8f0fe; /* Light background for contrast */
-    color: #333; /* Dark text color */
-    padding: 20px; /* Space around content */
+    font-family: Arial, sans-serif;
+    margin: 20px;
+    background-color: #f0f0f0;
 }
 
-/* Title Styling */
 h1 {
     text-align: center;
-    color: #3f51b5; /* A deep blue color */
-    margin-bottom: 20px; /* Space below the title */
 }
 
-/* Button Styling */
 button {
-    background-color: #3f51b5; /* Deep blue background */
-    color: white; /* White text color */
-    border: none; /* No default border */
-    padding: 12px 25px; /* More padding */
-    margin: 10px; /* Space around buttons */
+    padding: 10px 15px;
+    margin: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #4CAF50; /* Green background */
+    color: white; /* White text */
+    border: none; /* No border */
     border-radius: 5px; /* Rounded corners */
-    cursor: pointer; /* Pointer cursor */
-    font-size: 18px; /* Larger font size */
-    transition: background-color 0.3s, transform 0.2s; /* Smooth background change and scale effect */
+    transition: background-color 0.3s; /* Transition for hover effect */
 }
 
 button:hover {
-    background-color: #303f9f; /* Darker blue on hover */
-    transform: scale(1.05); /* Slightly increase size on hover */
+    background-color: #45a049; /* Darker green on hover */
 }
 
-/* Result Display */
-#result {
-    font-size: 20px; /* Larger text for results */
-    margin: 20px 0; /* Space above and below */
-    text-align: center; /* Center align text */
-    font-weight: bold; /* Make the text bold */
-    color: #ff5722; /* A bright accent color */
+#luckMultiplier {
+    font-size: 20px;
+    margin-bottom: 20px;
+    text-align: right; /* Align to the right */
 }
 
-/* Inventory List */
 #inventory {
-    margin-top: 20px; /* Space above inventory */
     list-style-type: none; /* No bullet points */
+    padding: 0;
 }
 
 #inventory li {
-    padding: 10px; /* Space around each inventory item */
-    border: 1px solid #ccc; /* Light border for items */
+    margin: 5px 0;
+    padding: 10px;
+    background-color: #fff; /* White background for inventory items */
+    border: 1px solid #ccc; /* Light gray border */
     border-radius: 5px; /* Rounded corners */
-    background-color: #fff; /* Default background for items */
-    margin-bottom: 10px; /* Space between items */
-    transition: background-color 0.2s; /* Smooth background change */
 }
 
-/* Heading for Inventory */
-h2 {
-    margin-top: 30px; /* Space above heading */
-    color: #3f51b5; /* Same deep blue for consistency */
-    text-align: center; /* Center align heading */
-    margin-bottom: 15px; /* Space below heading */
+#craftableItems {
+    margin-top: 20px;
+    padding: 10px;
+    background-color: #fff; /* White background for crafting area */
+    border: 1px solid #ccc; /* Light gray border */
+    border-radius: 5px; /* Rounded corners */
+    overflow-y: scroll; /* Allow scrolling */
+    height: 200px; /* Set fixed height */
+}
+
+#craftableItems div {
+    margin: 5px 0;
+    padding: 5px;
+}
+
+#result {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+    color: #333; /* Dark gray text color */
 }
