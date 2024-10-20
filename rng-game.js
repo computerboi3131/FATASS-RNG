@@ -43,13 +43,10 @@ const gradients = {
 
 // Define crafting recipes with luck bonuses
 const craftingRecipes = {
-    'luck gear': { materials: { 'fatass': 2, 'shiny fatass': 1 }, luckBonus: 1 },
-    'enhanced luck gear': { materials: { 'shiny fatass': 3 }, luckBonus: 2 },
-    'mega luck gear': { materials: { 'huge fatass': 1, 'shiny huge fatass': 1 }, luckBonus: 3 }
+    'luck gear': { materials: { 'fatass': 2, 'shiny fatass': 1 }, luckBonus: 1, crafted: false },
+    'enhanced luck gear': { materials: { 'shiny fatass': 3 }, luckBonus: 2, crafted: false },
+    'mega luck gear': { materials: { 'huge fatass': 1, 'shiny huge fatass': 1 }, luckBonus: 3, crafted: false }
 };
-
-// Initialize an empty array to store equipped gear
-let equippedGear = [];
 
 // Function to generate a random item based on probabilities
 function generateItem() {
@@ -132,11 +129,11 @@ function updateCraftingDisplay() {
         const materialsNeeded = document.createElement('p');
         materialsNeeded.style.margin = '5px 0 0 0'; // Add some margin
         materialsNeeded.textContent = 'Materials needed:';
-        
-        // List materials with counts needed (only showing needed counts)
+
+        // List materials with counts needed
         for (const material in recipe.materials) {
             const neededCount = recipe.materials[material];
-            materialsNeeded.appendChild(document.createElement('div')).textContent = `${material} (${neededCount} needed)`;
+            materialsNeeded.appendChild(document.createElement('div')).textContent = `${material} (${neededCount})`;
         }
 
         const button = document.createElement('button');
@@ -180,7 +177,12 @@ function rollAndUpdate() {
 
 // Function to craft items based on the defined recipes
 function craftItem(recipeName, materials) {
-    // Check if we have enough materials to craft
+    // Check if we have enough materials to craft and if the item has not been crafted before
+    if (craftingRecipes[recipeName].crafted) {
+        alert("You cannot craft this item more than once.");
+        return;
+    }
+
     let canCraft = true;
     for (const item in materials) {
         if (!inventory[item] || inventory[item] < materials[item]) {
@@ -200,6 +202,9 @@ function craftItem(recipeName, materials) {
 
         // Update the luck multiplier
         luckMultiplier += craftingRecipes[recipeName].luckBonus;
+
+        // Mark the item as crafted
+        craftingRecipes[recipeName].crafted = true;
 
         // Update the luck multiplier display (only when crafting)
         luckMultiplierDisplay.textContent = `Current Luck Multiplier: ${luckMultiplier}`;
