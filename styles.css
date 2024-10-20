@@ -1,0 +1,71 @@
+/* Basic Reset */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Body Styling */
+body {
+    font-family: 'Arial', sans-serif; /* Clean font */
+    background-color: #e8f0fe; /* Light background for contrast */
+    color: #333; /* Dark text color */
+    padding: 20px; /* Space around content */
+}
+
+/* Title Styling */
+h1 {
+    text-align: center;
+    color: #3f51b5; /* A deep blue color */
+    margin-bottom: 20px; /* Space below the title */
+}
+
+/* Button Styling */
+button {
+    background-color: #3f51b5; /* Deep blue background */
+    color: white; /* White text color */
+    border: none; /* No default border */
+    padding: 12px 25px; /* More padding */
+    margin: 10px; /* Space around buttons */
+    border-radius: 5px; /* Rounded corners */
+    cursor: pointer; /* Pointer cursor */
+    font-size: 18px; /* Larger font size */
+    transition: background-color 0.3s, transform 0.2s; /* Smooth background change and scale effect */
+}
+
+button:hover {
+    background-color: #303f9f; /* Darker blue on hover */
+    transform: scale(1.05); /* Slightly increase size on hover */
+}
+
+/* Result Display */
+#result {
+    font-size: 20px; /* Larger text for results */
+    margin: 20px 0; /* Space above and below */
+    text-align: center; /* Center align text */
+    font-weight: bold; /* Make the text bold */
+    color: #ff5722; /* A bright accent color */
+}
+
+/* Inventory List */
+#inventory {
+    margin-top: 20px; /* Space above inventory */
+    list-style-type: none; /* No bullet points */
+}
+
+#inventory li {
+    padding: 10px; /* Space around each inventory item */
+    border: 1px solid #ccc; /* Light border for items */
+    border-radius: 5px; /* Rounded corners */
+    background-color: #fff; /* Default background for items */
+    margin-bottom: 10px; /* Space between items */
+    transition: background-color 0.2s; /* Smooth background change */
+}
+
+/* Heading for Inventory */
+h2 {
+    margin-top: 30px; /* Space above heading */
+    color: #3f51b5; /* Same deep blue for consistency */
+    text-align: center; /* Center align heading */
+    margin-bottom: 15px; /* Space below heading */
+}
