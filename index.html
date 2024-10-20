@@ -3,25 +3,49 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RNG Game</title>
+    <title>RNG Fatass Game</title>
     <link rel="stylesheet" href="styles.css">
+    <style>
+        /* Additional styles for crafting list and multiplier */
+        #luckMultiplier {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        #craftableItems {
+            max-height: 150px;
+            overflow-y: auto;
+            border: 1px solid #ccc;
+            padding: 10px;
+            margin-top: 10px;
+        }
+        .craftable-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 5px;
+            padding: 5px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+        .craftable-item button {
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
     <h1>RNG Fatass Game</h1>
-
-    <div id="luckMultiplier">Current Luck Multiplier: 1</div>
-
-    <button id="rngButton">Roll Item</button>
+    <div id="luckMultiplier">Current Luck Multiplier: 1x</div>
+    <button id="rngButton">Generate Item</button>
     <button id="autoRollButton">Start Auto Roll</button>
 
+    <h2>Craftable Items:</h2>
+    <div id="craftableItems"></div> <!-- Scrollable area for crafting items -->
+
     <div id="result"></div>
-
-    <h2>Your Inventory</h2>
+    <h2>Inventory:</h2>
     <ul id="inventory"></ul>
-
-    <h2>Crafting Options</h2>
-    <div id="craftableItems" style="overflow-y: scroll; height: 200px;"></div>
-
     <script src="rng-game.js"></script>
 </body>
 </html>
