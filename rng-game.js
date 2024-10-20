@@ -227,4 +227,3 @@ autoRollButton.addEventListener('click', () => {
 // Initial inventory display update
 updateInventoryDisplay();
 luckMultiplierDisplay.textContent = `Current Luck Multiplier: ${luckMultiplier}`; // Initialize luck multiplier display
-
