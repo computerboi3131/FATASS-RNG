@@ -3,8 +3,12 @@ const rngButton = document.getElementById('rngButton');
 const autoRollButton = document.getElementById('autoRollButton');
 const result = document.getElementById('result');
 const inventoryList = document.getElementById('inventory'); // Inventory list in HTML
+const craftableItemsDiv = document.getElementById('craftableItems'); // Scrollable crafting area
+const luckMultiplierDisplay = document.getElementById('luckMultiplier'); // Luck multiplier display
 let autoRollActive = false;
 let autoRollInterval;
+let luckMultiplier = 1; // Default luck multiplier
+let rollsSinceLastCraftingUpdate = 0; // Counter for rolls
 
 // Initialize an empty inventory object to store item counts
 const inventory = {};
@@ -37,17 +41,33 @@ const gradients = {
     'shiny gold rainbow darkmatter huge titanic fatass': 'linear-gradient(to right, #ffff00, #ff3300)'
 };
 
+// Define crafting recipes with luck bonuses
+const craftingRecipes = {
+    'luck gear': { materials: { 'fatass': 2, 'shiny fatass': 1 }, luckBonus: 1 },
+    'enhanced luck gear': { materials: { 'shiny fatass': 3 }, luckBonus: 2 },
+    'mega luck gear': { materials: { 'huge fatass': 1, 'shiny huge fatass': 1 }, luckBonus: 3 }
+};
+
+// Initialize an empty array to store equipped gear
+let equippedGear = [];
+
 // Function to generate a random item based on probabilities
 function generateItem() {
-    const randomNumber = Math.random(); // Get a random number between 0 and 1
+    const adjustedItems = items.map(item => ({
+        ...item,
+        adjustedProbability: item.probability * (1 / luckMultiplier) // Adjust probability by the inverse of luck multiplier
+    }));
+
+    const totalProbability = adjustedItems.reduce((sum, item) => sum + item.adjustedProbability, 0);
+    const randomNumber = Math.random() * totalProbability; // Scale random number by total adjusted probability
     let cumulativeProbability = 0;
 
-    // Loop through the items to find which one is generated
-    for (let i = 0; i < items.length; i++) {
-        cumulativeProbability += items[i].probability;
+    // Loop through the adjusted items to find which one is generated
+    for (let i = 0; i < adjustedItems.length; i++) {
+        cumulativeProbability += adjustedItems[i].adjustedProbability; // Use adjusted probability
 
         if (randomNumber < cumulativeProbability) {
-            return items[i].name;
+            return adjustedItems[i].name;
         }
     }
 
@@ -97,6 +117,40 @@ function updateInventoryDisplay() {
     });
 }
 
+// Function to update the crafting list display
+function updateCraftingDisplay() {
+    craftableItemsDiv.innerHTML = ''; // Clear current crafting items
+
+    // Create crafting options for each recipe
+    for (const recipeName in craftingRecipes) {
+        const recipe = craftingRecipes[recipeName];
+        const listItem = document.createElement('div');
+        listItem.className = 'craftable-item';
+        listItem.textContent = recipeName + ` (Luck Bonus: +${recipe.luckBonus})`; // Show gear name and luck bonus
+
+        // Create a paragraph for materials needed
+        const materialsNeeded = document.createElement('p');
+        materialsNeeded.style.margin = '5px 0 0 0'; // Add some margin
+        materialsNeeded.textContent = 'Materials needed:';
+        
+        // List materials with counts needed (only showing needed counts)
+        for (const material in recipe.materials) {
+            const neededCount = recipe.materials[material];
+            materialsNeeded.appendChild(document.createElement('div')).textContent = `${material} (${neededCount} needed)`;
+        }
+
+        const button = document.createElement('button');
+        button.textContent = 'Craft';
+        button.addEventListener('click', () => {
+            craftItem(recipeName, recipe.materials);
+        });
+
+        listItem.appendChild(materialsNeeded); // Append materials list
+        listItem.appendChild(button);
+        craftableItemsDiv.appendChild(listItem);
+    }
+}
+
 // Function to roll and update inventory
 function rollAndUpdate() {
     const generatedItem = generateItem(); // Generate a random item
@@ -113,24 +167,64 @@ function rollAndUpdate() {
 
     // Update the inventory display
     updateInventoryDisplay();
+
+    // Increment the rolls counter
+    rollsSinceLastCraftingUpdate++;
+
+    // Update the crafting display every 10 rolls
+    if (rollsSinceLastCraftingUpdate >= 10) {
+        rollsSinceLastCraftingUpdate = 0; // Reset the counter
+        updateCraftingDisplay(); // Update the crafting display every 10 rolls
+    }
 }
 
-// Add an event listener to the button for manual rolling
-rngButton.addEventListener('click', function() {
-    rollAndUpdate();
-});
+// Function to craft items based on the defined recipes
+function craftItem(recipeName, materials) {
+    // Check if we have enough materials to craft
+    let canCraft = true;
+    for (const item in materials) {
+        if (!inventory[item] || inventory[item] < materials[item]) {
+            canCraft = false;
+            break;
+        }
+    }
 
-// Add a toggleable auto-roll button
-autoRollButton.addEventListener('click', function() {
-    autoRollActive = !autoRollActive;
+    if (canCraft) {
+        // Deduct the materials from the inventory
+        for (const item in materials) {
+            inventory[item] -= materials[item];
+        }
 
-    if (autoRollActive) {
-        // Start auto-rolling every 1ms
-        autoRollButton.textContent = "Stop Auto Roll";
-        autoRollInterval = setInterval(rollAndUpdate, 1);
+        // Display the crafted item
+        result.textContent = "Crafted: " + recipeName;
+
+        // Update the luck multiplier
+        luckMultiplier += craftingRecipes[recipeName].luckBonus;
+
+        // Update the luck multiplier display (only when crafting)
+        luckMultiplierDisplay.textContent = `Current Luck Multiplier: ${luckMultiplier}`;
+
+        // Update the inventory and crafting displays
+        updateInventoryDisplay();
     } else {
-        // Stop auto-rolling
-        autoRollButton.textContent = "Start Auto Roll";
+        alert("Not enough materials to craft " + recipeName);
+    }
+}
+
+// Set event listeners for buttons
+rngButton.addEventListener('click', rollAndUpdate);
+autoRollButton.addEventListener('click', () => {
+    autoRollActive = !autoRollActive; // Toggle auto roll
+    if (autoRollActive) {
+        autoRollButton.textContent = 'Stop Auto Roll';
+        autoRollInterval = setInterval(rollAndUpdate, 1); // Auto roll every 1ms
+    } else {
+        autoRollButton.textContent = 'Start Auto Roll';
         clearInterval(autoRollInterval);
     }
 });
+
+// Initial inventory display update
+updateInventoryDisplay();
+luckMultiplierDisplay.textContent = `Current Luck Multiplier: ${luckMultiplier}`; // Initialize luck multiplier display
+
